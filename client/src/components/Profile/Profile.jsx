@@ -4,7 +4,6 @@ import config from "../../config.json";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { ToastContainer, toast } from "react-toastify";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -16,17 +15,15 @@ const Profile = () => {
       if (!cookies.token) {
         navigate("/");
       }
-      const {request} = await axios.post(
+      const {data} = await axios.post(
         `${config.apiUrl}`,
         {},
         { withCredentials: true }
       );
-      const { status, user } = request;
+      const { status, user } = data;
       setUsername(user);
       return status
-        ? toast(`Hello ${user}`, {
-            position: "top-right",
-          })
+        ? alert('welcome to your profile')
         : (removeCookie("token"), navigate("/"));
     };
     verifyCookie();
@@ -44,7 +41,6 @@ const Profile = () => {
           </h4>
           <button onClick={Logout}>LOGOUT</button>
         </div>
-        <ToastContainer />
       </div>
     </>
   );

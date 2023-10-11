@@ -18,11 +18,14 @@ const LogIn = () => {
     const LogInHandler = async (e) => {
         e.preventDefault();
         try {
-           const request = await axios.post(`${config.apiUrl}/login`, user, {
+           const {data} = await axios.post(`${config.apiUrl}/login`, user, {
              withCredentials: true,
            });
-           if(request.data){
+           const {success, message} = data
+           if(success){
             navigate('/profile');
+           } else {
+            setErrorMsg(message);
            }
         } catch (error) {
             if (
@@ -30,7 +33,7 @@ const LogIn = () => {
               error.response.status >= 400 &&
               error.response.status <= 500
             ) {
-              setErrorMsg(error.response.data.message);
+              setErrorMsg(error);
             }
         }
     }
