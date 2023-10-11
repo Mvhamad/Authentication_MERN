@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const Routes = require('./routes/routes')
+const Routes = require('./routes/routes');
 
 // database
 require('dotenv').config({path: './config/.env'});
@@ -10,8 +10,13 @@ require('./config/db');
 const app = express();
 
 //
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 
 //routes
